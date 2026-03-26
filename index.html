@@ -881,6 +881,80 @@
         }
         .week-day-dot.done { background: var(--accent); }
         .week-day-dot.missed { background: var(--fail); opacity: 0.5; }
+
+        /* ===== ROUTINE SWITCHER ===== */
+        .routine-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--bg3);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            padding: 4px 10px 4px 8px;
+            font-family: var(--font-display);
+            font-size: 10px; font-weight: 800;
+            letter-spacing: 1px; text-transform: uppercase;
+            color: var(--accent);
+            cursor: pointer;
+        }
+        .routine-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .routine-item.active-routine { border-color: var(--accent); background: #1a2000; }
+        .routine-item:active { transform: scale(0.98); }
+        .routine-name { font-family: var(--font-display); font-size: 1em; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .routine-meta { font-size: 11px; color: var(--text-sub); margin-top: 2px; }
+
+        /* ===== CARDIO LOG ===== */
+        .cardio-entry {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0; border-bottom: 1px solid var(--border);
+        }
+        .cardio-entry:last-child { border-bottom: none; }
+        .cardio-badge {
+            background: #1a1040; border: 1px solid #6366f1;
+            color: #818cf8; padding: 2px 8px; border-radius: 4px;
+            font-family: var(--font-display); font-size: 9px; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        /* ===== AI PROMPT DISPLAY ===== */
+        .prompt-box {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 1.7;
+            color: var(--text-mid);
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+            user-select: text;
+        }
+        .prompt-box .ph { color: var(--accent); font-weight: 700; }
+
+        /* ===== JSON IMPORT ===== */
+        .json-import-area {
+            background: var(--input-bg);
+            border: 1px dashed var(--border2);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-mid);
+            min-height: 120px;
+            resize: vertical;
+            width: 100%;
+        }
+        .json-import-area:focus { border-color: var(--accent); color: var(--text); }
     </style>
 </head>
 <body>
@@ -1000,9 +1074,18 @@
     <!-- WORKOUT PAGE -->
     <div id="workoutPage" class="page">
         <div style="margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <div class="workout-day-name" id="workoutDayTitle">--</div>
-                <button class="btn-sm" onclick="openExerciseManager(currentWorkoutDay)">✎ Edit</button>
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <button class="btn-sm" onclick="openExerciseManager(currentWorkoutDay)">✎ Edit</button>
+                </div>
+            </div>
+            <!-- Routine Switcher -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <div id="routinePill" class="routine-pill" onclick="openRoutineManager()">
+                    📋 <span id="routinePillName">PPL</span> ▾
+                </div>
+                <button class="btn-sm" onclick="openCardioLog()" style="border-color:#6366f1;color:#818cf8;">🏃 Cardio</button>
             </div>
             <div class="day-scroller" id="workoutNav"></div>
         </div>
@@ -1129,6 +1212,120 @@
     </div>
 </div>
 
+<!-- ROUTINE MANAGER MODAL -->
+<div id="routineModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <span class="close-modal" onclick="closeModal('routineModal')">✕</span>
+        <div class="modal-title">Routines</div>
+        <div id="routineList" style="margin-bottom:16px;"></div>
+        <div style="border-top:1px solid var(--border);padding-top:14px;display:grid;gap:10px;">
+            <span class="label-sm">Create New Routine</span>
+            <input id="newRoutineName" placeholder="e.g. Full Body, Isolation, Bro Split">
+            <button class="btn-main" onclick="createRoutine()">+ CREATE ROUTINE</button>
+            <button class="btn-main btn-outline" onclick="openImportModal()">📥 Import via JSON</button>
+            <button class="btn-main btn-outline" onclick="openAIPromptModal()" style="border-color:#a855f7;color:#a855f7;">🤖 AI Prompt Generator</button>
+        </div>
+    </div>
+</div>
+
+<!-- JSON IMPORT MODAL -->
+<div id="importModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <span class="close-modal" onclick="closeModal('importModal')">✕</span>
+        <div class="modal-title">Import Workout JSON</div>
+        <div style="display:grid;gap:12px;">
+            <span class="label-sm">Paste your workout JSON below</span>
+            <textarea id="jsonImportArea" class="json-import-area" placeholder='{"name":"My Routine","days":{...}}'></textarea>
+            <div style="background:var(--bg2);border-radius:8px;padding:12px;font-size:11px;color:var(--text-sub);line-height:1.7;">
+                <b style="color:var(--text-mid);font-family:var(--font-display);letter-spacing:1px;">EXPECTED FORMAT</b><br>
+                Use the AI Prompt Generator to get a JSON that fits this format automatically.
+            </div>
+            <button class="btn-main" onclick="importWorkoutJSON()">IMPORT ROUTINE</button>
+        </div>
+    </div>
+</div>
+
+<!-- AI PROMPT MODAL -->
+<div id="aiPromptModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <span class="close-modal" onclick="closeModal('aiPromptModal')">✕</span>
+        <div class="modal-title">🤖 AI Prompt</div>
+        <div style="display:grid;gap:12px;">
+            <div>
+                <span class="label-sm">What kind of workout do you want?</span>
+                <input id="aiRoutineType" placeholder="e.g. 6-day PPL, 4-day Upper Lower, Isolation...">
+            </div>
+            <button class="btn-main" onclick="generatePromptText()">GENERATE PROMPT</button>
+            <div id="aiPromptOutput" style="display:none;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <span class="label-sm" style="margin:0;">Copy this → paste in Claude / ChatGPT</span>
+                    <button class="btn-sm" onclick="copyPromptText()">📋 Copy</button>
+                </div>
+                <div id="aiPromptText" class="prompt-box"></div>
+                <div style="margin-top:10px;font-size:12px;color:var(--text-sub);line-height:1.6;">After the AI replies with JSON, come back here → Routines → Import via JSON → paste it.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CARDIO LOG MODAL -->
+<div id="cardioModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <span class="close-modal" onclick="closeModal('cardioModal')">✕</span>
+        <div class="modal-title">🏃 Cardio</div>
+        <div style="display:grid;gap:10px;margin-bottom:16px;">
+            <div>
+                <span class="label-sm">Type</span>
+                <select id="cardioType">
+                    <option value="Treadmill">Treadmill</option>
+                    <option value="Bike">Stationary Bike</option>
+                    <option value="Elliptical">Elliptical</option>
+                    <option value="Rowing">Rowing</option>
+                    <option value="Stairmaster">Stairmaster</option>
+                    <option value="Jump Rope">Jump Rope</option>
+                    <option value="Swimming">Swimming</option>
+                    <option value="Running">Running (Outdoor)</option>
+                    <option value="Walking">Walking</option>
+                    <option value="HIIT">HIIT</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div>
+                    <span class="label-sm">Duration (min)</span>
+                    <div class="stepper">
+                        <button onclick="adjustCardio('duration',-5)">−</button>
+                        <input type="number" id="cardioDuration" value="30" min="1">
+                        <button onclick="adjustCardio('duration',5)">+</button>
+                    </div>
+                </div>
+                <div>
+                    <span class="label-sm">Calories (optional)</span>
+                    <div class="stepper">
+                        <button onclick="adjustCardio('calories',-50)">−</button>
+                        <input type="number" id="cardioCalories" value="" placeholder="--" min="0">
+                        <button onclick="adjustCardio('calories',50)">+</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="label-sm">Distance (optional, km)</span>
+                <input type="number" id="cardioDistance" placeholder="e.g. 3.5" step="0.1">
+            </div>
+            <div>
+                <span class="label-sm">Notes</span>
+                <input id="cardioNotes" placeholder="e.g. Zone 2, intervals, easy pace">
+            </div>
+            <button class="btn-main" onclick="logCardio()">LOG CARDIO</button>
+        </div>
+        <div id="cardioHistory" style="border-top:1px solid var(--border);padding-top:14px;"></div>
+    </div>
+</div>
+
 <!-- BF MODAL -->
 <div id="bfModal" class="modal">
     <div class="modal-content">
@@ -1209,6 +1406,35 @@ let exManagerDay = 0;
 let editingExIdx = null;
 let managerMode = '';
 
+// ============================================================
+// MULTI-ROUTINE SYSTEM
+// ============================================================
+function getRoutines() {
+    const s = localStorage.getItem('routines');
+    if (s) return JSON.parse(s);
+    // Migrate legacy single workout
+    const legacy = localStorage.getItem('workoutsConfig');
+    const days = legacy ? JSON.parse(legacy) : JSON.parse(JSON.stringify(defaultWorkouts));
+    const routines = [{id: 'r1', name: 'PPL', days}];
+    localStorage.setItem('routines', JSON.stringify(routines));
+    return routines;
+}
+function saveRoutines(r) { localStorage.setItem('routines', JSON.stringify(r)); }
+function getActiveRoutineId() { return localStorage.getItem('activeRoutineId') || getRoutines()[0]?.id || 'r1'; }
+function setActiveRoutineId(id) { localStorage.setItem('activeRoutineId', id); }
+function getActiveRoutine() {
+    const routines = getRoutines();
+    return routines.find(r => r.id === getActiveRoutineId()) || routines[0];
+}
+function getWorkouts() {
+    return getActiveRoutine()?.days || JSON.parse(JSON.stringify(defaultWorkouts));
+}
+function saveWorkouts(d) {
+    const routines = getRoutines();
+    const idx = routines.findIndex(r => r.id === getActiveRoutineId());
+    if (idx !== -1) { routines[idx].days = d; saveRoutines(routines); }
+}
+
 const defaultDiet = [
     {id:'e1',n:'2 Eggs',p:12},{id:'w1',n:'Whey Scoop',p:24},
     {id:'d1',n:'Dal Bowl',p:7},{id:'c1',n:'Curd Bowl',p:5},
@@ -1260,12 +1486,6 @@ const defaultWorkouts = {
 // ============================================================
 // HELPERS
 // ============================================================
-function getWorkouts() {
-    const s = localStorage.getItem('workoutsConfig');
-    return s ? JSON.parse(s) : JSON.parse(JSON.stringify(defaultWorkouts));
-}
-function saveWorkouts(d) { localStorage.setItem('workoutsConfig', JSON.stringify(d)); }
-
 function showToast(msg, type='info', icon='') {
     const c = document.getElementById('toast-container');
     const t = document.createElement('div');
@@ -1281,7 +1501,6 @@ function calcStreak() {
     const att = JSON.parse(localStorage.getItem('gatt')) || {};
     let streak = 0;
     const d = new Date(); d.setHours(0,0,0,0);
-    // Check if today is done — if not, start from yesterday
     if (!att[d.toISOString().split('T')[0]]) d.setDate(d.getDate() - 1);
     while (true) {
         const s = d.toISOString().split('T')[0];
@@ -1298,6 +1517,8 @@ function calcStreak() {
 function init() {
     if(!localStorage.getItem('dietConfig')) localStorage.setItem('dietConfig', JSON.stringify(defaultDiet));
     if(!localStorage.getItem('suppConfig')) localStorage.setItem('suppConfig', JSON.stringify(defaultSupps));
+    // Init routines system (migrates legacy workoutsConfig if needed)
+    getRoutines();
     const theme = localStorage.getItem('theme') || 'dark';
     if(theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
     else document.documentElement.removeAttribute('data-theme');
@@ -1312,6 +1533,7 @@ function init() {
     renderMood();
     renderWater();
     renderTimerPresets();
+    updateRoutinePill();
 }
 
 function updateHeaderStats() {
@@ -2109,6 +2331,312 @@ function importData(e) {
         location.reload();
     };
     r.readAsText(e.target.files[0]);
+}
+
+// ============================================================
+// ROUTINE MANAGER
+// ============================================================
+function updateRoutinePill() {
+    const r = getActiveRoutine();
+    if (r) document.getElementById('routinePillName').innerText = r.name;
+}
+
+function openRoutineManager() {
+    document.getElementById('routineModal').style.display = 'flex';
+    renderRoutineList();
+}
+
+function renderRoutineList() {
+    const routines = getRoutines();
+    const activeId = getActiveRoutineId();
+    let html = '';
+    routines.forEach(r => {
+        const dayCount = Object.values(r.days||{}).filter(d => d.ex && d.ex.length > 0).length;
+        const isActive = r.id === activeId;
+        html += `<div class="routine-item ${isActive ? 'active-routine' : ''}" onclick="switchRoutine('${r.id}')">
+            <div>
+                <div class="routine-name">${r.name} ${isActive ? '<span style="color:var(--accent);font-size:9px;margin-left:6px;">● ACTIVE</span>' : ''}</div>
+                <div class="routine-meta">${dayCount} training day${dayCount !== 1 ? 's' : ''}</div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <button class="btn-sm" onclick="event.stopPropagation();renameRoutine('${r.id}')">✎</button>
+                ${routines.length > 1 ? `<button onclick="event.stopPropagation();deleteRoutine('${r.id}')" style="background:none;border:none;color:var(--fail);font-size:18px;font-weight:700;cursor:pointer;padding:0 4px;">✕</button>` : ''}
+            </div>
+        </div>`;
+    });
+    document.getElementById('routineList').innerHTML = html || '<div style="color:var(--text-sub);font-size:13px;padding:10px 0;">No routines yet.</div>';
+}
+
+function switchRoutine(id) {
+    setActiveRoutineId(id);
+    updateRoutinePill();
+    renderRoutineList();
+    renderWorkout(currentWorkoutDay);
+    showToast('Routine switched', 'success', '📋');
+}
+
+function createRoutine() {
+    const name = document.getElementById('newRoutineName').value.trim();
+    if (!name) return showToast('Enter a routine name', 'info', '⚠️');
+    const routines = getRoutines();
+    const id = 'r' + Date.now();
+    // Empty days template
+    const emptyDays = {0:{n:"REST",ex:[]},1:{n:"DAY 1",ex:[]},2:{n:"DAY 2",ex:[]},3:{n:"DAY 3",ex:[]},4:{n:"DAY 4",ex:[]},5:{n:"DAY 5",ex:[]},6:{n:"DAY 6",ex:[]}};
+    routines.push({id, name, days: emptyDays});
+    saveRoutines(routines);
+    setActiveRoutineId(id);
+    document.getElementById('newRoutineName').value = '';
+    updateRoutinePill();
+    renderRoutineList();
+    renderWorkout(1);
+    showToast(`"${name}" created & activated`, 'success', '✅');
+}
+
+function renameRoutine(id) {
+    const routines = getRoutines();
+    const r = routines.find(x => x.id === id);
+    if (!r) return;
+    const newName = prompt('Rename routine:', r.name);
+    if (!newName || !newName.trim()) return;
+    r.name = newName.trim();
+    saveRoutines(routines);
+    updateRoutinePill();
+    renderRoutineList();
+}
+
+function deleteRoutine(id) {
+    const routines = getRoutines();
+    if (routines.length <= 1) return showToast("Can't delete the only routine", 'info', '⚠️');
+    const idx = routines.findIndex(r => r.id === id);
+    if (idx === -1) return;
+    const name = routines[idx].name;
+    routines.splice(idx, 1);
+    saveRoutines(routines);
+    if (getActiveRoutineId() === id) {
+        setActiveRoutineId(routines[0].id);
+        updateRoutinePill();
+        renderWorkout(currentWorkoutDay);
+    }
+    renderRoutineList();
+    showToast(`"${name}" deleted`, 'info', '🗑');
+}
+
+// ============================================================
+// JSON IMPORT
+// ============================================================
+function openImportModal() {
+    closeModal('routineModal');
+    document.getElementById('jsonImportArea').value = '';
+    document.getElementById('importModal').style.display = 'flex';
+}
+
+function importWorkoutJSON() {
+    const raw = document.getElementById('jsonImportArea').value.trim();
+    if (!raw) return showToast('Paste JSON first', 'info', '⚠️');
+    let parsed;
+    try {
+        parsed = JSON.parse(raw);
+    } catch(e) {
+        return showToast('Invalid JSON — check format', 'info', '❌');
+    }
+
+    // Support two formats:
+    // Format A (direct days object): {"name":"X","days":{"1":{n,ex},…}}
+    // Format B (AI output with days array): {"name":"X","days":[{day,name,exercises:[{name,sets,reps,link}]}]}
+    let name = parsed.name || 'Imported Routine';
+    let days = {};
+
+    if (parsed.days && !Array.isArray(parsed.days)) {
+        // Format A — keys are day numbers (as strings or ints)
+        Object.entries(parsed.days).forEach(([k, v]) => {
+            days[parseInt(k)] = {
+                n: v.n || v.name || 'Day',
+                ex: (v.ex || v.exercises || []).map(e => ({
+                    id: e.id || 'ex' + Math.random().toString(36).slice(2,7),
+                    n: e.n || e.name,
+                    t: e.t || e.sets || '',
+                    l: e.l || e.link || ''
+                }))
+            };
+        });
+    } else if (parsed.days && Array.isArray(parsed.days)) {
+        // Format B — AI-generated array format
+        parsed.days.forEach(d => {
+            const dayNum = d.day !== undefined ? parseInt(d.day) : 0;
+            days[dayNum] = {
+                n: d.name || d.n || 'Day',
+                ex: (d.exercises || d.ex || []).map(e => ({
+                    id: 'ex' + Math.random().toString(36).slice(2,7),
+                    n: e.name || e.n,
+                    t: e.sets ? (e.sets + (e.reps ? '×' + e.reps : '')) : (e.t || ''),
+                    l: e.link || e.l || ''
+                }))
+            };
+        });
+    } else {
+        return showToast('Could not parse routine structure', 'info', '❌');
+    }
+
+    // Fill missing days as rest
+    [0,1,2,3,4,5,6].forEach(i => { if (!days[i]) days[i] = {n: i===0?'REST':'DAY '+i, ex:[]}; });
+
+    const routines = getRoutines();
+    const id = 'r' + Date.now();
+    routines.push({id, name, days});
+    saveRoutines(routines);
+    setActiveRoutineId(id);
+    updateRoutinePill();
+    renderWorkout(1);
+    closeModal('importModal');
+    showToast(`"${name}" imported!`, 'success', '📥');
+}
+
+// ============================================================
+// AI PROMPT GENERATOR
+// ============================================================
+function openAIPromptModal() {
+    closeModal('routineModal');
+    document.getElementById('aiRoutineType').value = '';
+    document.getElementById('aiPromptOutput').style.display = 'none';
+    document.getElementById('aiPromptModal').style.display = 'flex';
+}
+
+function generatePromptText() {
+    const type = document.getElementById('aiRoutineType').value.trim();
+    if (!type) return showToast('Describe your workout first', 'info', '⚠️');
+
+    const prompt = `Generate a ${type} gym workout routine for me.
+
+Return ONLY a valid JSON object — no explanation, no markdown, no extra text. The JSON must follow this exact format:
+
+{
+  "name": "Routine Name",
+  "days": [
+    {
+      "day": 1,
+      "name": "PUSH",
+      "exercises": [
+        {
+          "name": "Bench Press",
+          "sets": "3",
+          "reps": "10",
+          "link": "https://exrx.net/..."
+        }
+      ]
+    },
+    {
+      "day": 0,
+      "name": "REST",
+      "exercises": []
+    }
+  ]
+}
+
+Rules:
+- "day" must be 0–6 (0 = Sunday, 1 = Monday, … 6 = Saturday)
+- Include all 7 days (0–6). Use "REST" with empty exercises for rest days
+- "sets" and "reps" are strings (e.g. "3" and "10")
+- "link" should be a real exrx.net or strengthlog.com URL for the exercise, or an empty string ""
+- Include 3–6 exercises per training day
+- Routine type: ${type}`;
+
+    document.getElementById('aiPromptText').innerText = prompt;
+    document.getElementById('aiPromptOutput').style.display = 'block';
+}
+
+function copyPromptText() {
+    const text = document.getElementById('aiPromptText').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('Prompt copied!', 'success', '📋');
+    }).catch(() => {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        showToast('Prompt copied!', 'success', '📋');
+    });
+}
+
+// ============================================================
+// CARDIO LOG
+// ============================================================
+function openCardioLog() {
+    document.getElementById('cardioModal').style.display = 'flex';
+    renderCardioHistory();
+}
+
+function adjustCardio(field, delta) {
+    const el = document.getElementById('cardio' + field.charAt(0).toUpperCase() + field.slice(1));
+    let val = parseFloat(el.value) || 0;
+    val = Math.max(0, val + delta);
+    el.value = val;
+}
+
+function logCardio() {
+    const type = document.getElementById('cardioType').value;
+    const duration = parseInt(document.getElementById('cardioDuration').value);
+    const calories = document.getElementById('cardioCalories').value;
+    const distance = document.getElementById('cardioDistance').value;
+    const notes = document.getElementById('cardioNotes').value.trim();
+
+    if (!duration || duration < 1) return showToast('Enter duration', 'info', '⚠️');
+
+    const entry = {
+        id: 'c' + Date.now(),
+        date: todayStr(),
+        type, duration,
+        calories: calories ? parseInt(calories) : null,
+        distance: distance ? parseFloat(distance) : null,
+        notes
+    };
+
+    const log = JSON.parse(localStorage.getItem('cardioLog')) || [];
+    log.push(entry);
+    localStorage.setItem('cardioLog', JSON.stringify(log));
+
+    // Clear form
+    document.getElementById('cardioCalories').value = '';
+    document.getElementById('cardioDistance').value = '';
+    document.getElementById('cardioNotes').value = '';
+
+    renderCardioHistory();
+    showToast(`${type} · ${duration} min logged 🏃`, 'success', '✅');
+}
+
+function renderCardioHistory() {
+    const log = JSON.parse(localStorage.getItem('cardioLog')) || [];
+    const container = document.getElementById('cardioHistory');
+    if (!log.length) {
+        container.innerHTML = '<div style="color:var(--text-sub);font-size:13px;">No cardio logged yet.</div>';
+        return;
+    }
+    const recent = [...log].reverse().slice(0, 15);
+    let html = '<span class="label-sm">Recent Sessions</span>';
+    recent.forEach(e => {
+        const extras = [];
+        if (e.distance) extras.push(e.distance + 'km');
+        if (e.calories) extras.push(e.calories + ' kcal');
+        if (e.notes) extras.push(e.notes);
+        html += `<div class="cardio-entry">
+            <div>
+                <div style="font-weight:700;font-size:14px;">${e.type} <span class="cardio-badge">${e.duration} min</span></div>
+                <div style="font-size:11px;color:var(--text-sub);margin-top:3px;">${e.date}${extras.length ? ' · ' + extras.join(' · ') : ''}</div>
+            </div>
+            <button onclick="deleteCardio('${e.id}')" style="background:none;border:none;color:var(--fail);font-size:18px;font-weight:700;cursor:pointer;padding:0 6px;">✕</button>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function deleteCardio(id) {
+    let log = JSON.parse(localStorage.getItem('cardioLog')) || [];
+    log = log.filter(e => e.id !== id);
+    localStorage.setItem('cardioLog', JSON.stringify(log));
+    renderCardioHistory();
+    showToast('Entry removed', 'info', '🗑');
 }
 
 init();
