@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "GYM PRO - Personal Gym Tracker",
   "scripts": {
-    "build": "cp index.html www/index.html && echo 'Web assets ready'",
+    "build": "mkdir -p www/css www/js && cp index.html www/ && cp css/*.css www/css/ && cp js/*.js www/js/ && echo 'Web assets ready'",
     "cap:add": "npx cap add android",
     "cap:sync": "npx cap sync android",
     "cap:open": "npx cap open android"

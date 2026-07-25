@@ -2,10 +2,10 @@ name: Build APK
 
 on:
   push:
-    branches: [main]
+    branches: [main, ui-redesign-v2]
   pull_request:
-    branches: [main]
-  workflow_dispatch:      # allows manual trigger from GitHub UI
+    branches: [main, ui-redesign-v2]
+  workflow_dispatch:
 
 jobs:
   build-apk:
@@ -35,7 +35,7 @@ jobs:
           build-tools: '34.0.0'
           accept-android-sdk-licenses: true
 
-      - name: Build web assets
+      - name: Build web assets (copy to www/)
         run: npm run build
 
       - name: Add Android platform
