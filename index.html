@@ -1724,6 +1724,45 @@ function showToast(msg, type='info', icon='') {
     t.innerHTML = `${icon ? '<span>'+icon+'</span>' : ''}<span>${msg}</span>`;
     c.appendChild(t);
     setTimeout(() => { t.style.animation = 'toastOut 0.3s ease forwards'; setTimeout(() => t.remove(), 300); }, 2200);
+    if (type === 'pr') celebratePR();
+}
+
+// ── Confetti cannon for PR celebrations ──
+function celebratePR() {
+    const colors = ['#a855f7','#c8f500','#22c55e','#f59e0b','#7c3aed','#f0f0f0','#3b82f6'];
+    for (let i = 0; i < 60; i++) {
+        const particle = document.createElement('div');
+        const size = Math.random() * 8 + 4;
+        particle.style.cssText = `
+            position:fixed; z-index:10000; pointer-events:none;
+            width:${size}px; height:${size * (Math.random() * 0.6 + 0.4)}px;
+            background:${colors[Math.floor(Math.random() * colors.length)]};
+            border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+            left:${Math.random() * 100}vw; top:-20px;
+            opacity:0.95;
+            transition: all ${0.8 + Math.random() * 1.2}s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        `;
+        document.body.appendChild(particle);
+        requestAnimationFrame(() => {
+            particle.style.transform = `translateY(${60 + Math.random() * 60}vh) translateX(${(Math.random()-0.5)*200}px) rotate(${Math.random()*720}deg)`;
+            particle.style.opacity = '0';
+        });
+        setTimeout(() => particle.remove(), 2200);
+    }
+}
+
+// ── Animated number counter ──
+function animateCounter(el, from, to, duration) {
+    if (!el) return;
+    const start = performance.now();
+    const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        const current = Math.round(from + (to - from) * eased);
+        el.innerText = current;
+        if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
 }
 
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -1790,10 +1829,15 @@ function updateHeaderStats() {
         el.className = 'stat-delta ' + (delta > 0 ? 'delta-up' : 'delta-down');
     }
 
-    // Streak
+    // Streak — animated
     const streak = calcStreak();
-    document.getElementById('streakNum').innerText = streak;
-    document.getElementById('headerStreak').style.display = streak > 0 ? 'flex' : 'none';
+    if (streak > 0) {
+        document.getElementById('headerStreak').style.display = 'flex';
+        const prevStreak = parseInt(document.getElementById('streakNum').innerText) || 0;
+        animateCounter(document.getElementById('streakNum'), prevStreak, streak, 600);
+    } else {
+        document.getElementById('headerStreak').style.display = 'none';
+    }
 }
 
 function toggleTheme() {
@@ -2078,9 +2122,14 @@ function saveW(id) {
     const w = document.getElementById('w_'+id)?.value;
     const r = document.getElementById('r_'+id)?.value;
     localStorage.setItem(`t_${id}_${todayStr()}`, JSON.stringify({w,r}));
-    // Update est 1RM without full re-render
+    // Check for PR before re-render
     const est = (w && r) ? Math.round(parseFloat(w)*(1+parseInt(r)/30)) : null;
-    // Full re-render to update PR badge
+    const hist = JSON.parse(localStorage.getItem('h_'+id))||[];
+    const allMax = hist.length>0 ? Math.max(...hist.map(h=>Math.round(h.w*(1+h.r/30)))) : 0;
+    if (est && hist.length > 0 && est > allMax) {
+        const exCard = document.querySelector(`#w_${CSS.escape(id)}`)?.closest('.ex-card');
+        if (exCard) { exCard.classList.add('is-pr'); }
+    }
     renderWorkout(currentWorkoutDay);
 }
 
@@ -2097,10 +2146,14 @@ function finishWorkout(dayNum) {
     const wkts = getWorkouts();
     const exList = wkts[dayNum]?.ex || [];
     let logged = 0;
+    let prCount = 0;
     exList.forEach(ex => {
         const t = JSON.parse(localStorage.getItem(`t_${ex.id}_${todayStr()}`));
         if(t && t.w>0 && t.r>0) {
             const hist = JSON.parse(localStorage.getItem('h_'+ex.id))||[];
+            const est = Math.round(parseFloat(t.w)*(1+parseInt(t.r)/30));
+            const allMax = hist.length>0 ? Math.max(...hist.map(h=>Math.round(h.w*(1+h.r/30)))) : -1;
+            if (est > allMax && hist.length > 0) prCount++;
             hist.push({d:todayStr(), w:parseFloat(t.w), r:parseInt(t.r)});
             localStorage.setItem('h_'+ex.id, JSON.stringify(hist));
             logged++;
@@ -2109,6 +2162,9 @@ function finishWorkout(dayNum) {
     const att = JSON.parse(localStorage.getItem('gatt'))||{};
     att[todayStr()] = true;
     localStorage.setItem('gatt', JSON.stringify(att));
+    if (prCount > 0) {
+        showToast(`${prCount} new PR${prCount>1?'s':''}! 🏆`, 'pr', '🏆');
+    }
     showToast(`Workout saved! ${logged} exercises logged 💪`, 'success', '✅');
     updateHeaderStats();
     renderWeekSummary();
