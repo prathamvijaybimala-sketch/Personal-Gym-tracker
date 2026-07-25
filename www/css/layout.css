@@ -1,0 +1,144 @@
+/* ============================================================
+   HEADER — simple, elevated surface
+   ============================================================ */
+header {
+    background: var(--surface-container-low);
+    padding: 0 20px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--elevation-1);
+}
+.header-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+}
+.header-logo span { color: var(--text); font-weight: 500; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.header-stats {
+    text-align: right;
+    cursor: pointer;
+    line-height: 1.3;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-container);
+    transition: background var(--duration-fast) var(--ease-smooth);
+}
+.header-stats:active { background: var(--surface-container-high); }
+.header-stats .wt { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text); }
+.header-stats .bf { font-family: var(--font-mono); font-size: 10px; color: var(--text-sub); }
+.header-streak {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--primary-container);
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--on-primary-container);
+}
+.theme-btn {
+    background: var(--surface-container);
+    color: var(--text-mid);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background var(--duration-fast) var(--ease-smooth);
+}
+.theme-btn:hover { background: var(--surface-container-high); }
+.theme-btn:active { transform: scale(0.9); background: var(--primary-container); }
+
+/* ============================================================
+   LAYOUT & PAGE TRANSITIONS (shared-axis)
+   ============================================================ */
+.container { padding: 16px; max-width: 620px; margin: auto; }
+.page { display: none; }
+.page.active { display: block; animation: pageIn var(--duration-normal) var(--ease-emphasized); }
+@keyframes pageIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+/* ============================================================
+   CARDS — Material elevation, no borders
+   ============================================================ */
+.card {
+    background: var(--surface-container-low);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 14px;
+    border: none;
+    box-shadow: var(--elevation-1);
+    transition: box-shadow var(--duration-normal) var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+}
+.card-title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    letter-spacing: 0.01em;
+    color: var(--text-mid);
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-transform: none;
+}
+.card-title .accent-line {
+    display: inline-block;
+    width: 4px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* ============================================================
+   BOTTOM NAV — Material 3 Navigation Bar
+   ============================================================ */
+.main-nav {
+    display: flex;
+    background: var(--surface-container-low);
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 200;
+    padding: 6px 8px max(8px, env(safe-area-inset-bottom));
+    box-shadow: var(--elevation-2);
+    border-top: none;
+}
+.nav-item {
+    flex: 1;
+    border: none;
+    background: none;
+    color: var(--text-sub);
+    cursor: pointer;
+    padding: 6px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    transition: color var(--duration-fast) var(--ease-smooth);
+    position: relative;
+    border-radius: var(--radius-lg);
+    min-height: 56px;
+    justify-content: center;
+}
+.nav-item .nav-icon { font-size: 24px; line-height: 1; transition: transform var(--duration-fast) var(--ease-spring); }
+.nav-item.active { color: var(--accent); background: var(--primary-container); }
+.nav-item.active .nav-icon { transform: scale(1); }

@@ -1,0 +1,250 @@
+/* ============================================================
+   CALENDAR — Material-style consistency tiles
+   ============================================================ */
+.cal-controls {
+    display: flex;
+    gap: 0;
+    background: var(--surface-container);
+    padding: 4px;
+    border-radius: var(--radius-full);
+    margin-bottom: 16px;
+    border: none;
+}
+.cal-mode-btn {
+    flex: 1; border: none;
+    background: transparent;
+    color: var(--text-sub);
+    font-family: var(--font-body);
+    font-size: 0.8125rem; font-weight: 500;
+    letter-spacing: 0;
+    padding: 10px 4px;
+    border-radius: var(--radius-full);
+    text-transform: none;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-smooth);
+}
+.cal-mode-btn.active { background: var(--primary-container); color: var(--on-primary-container); font-weight: 600; }
+.cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.cal-month { font-family: var(--font-body); font-weight: 600; font-size: var(--text-lg); letter-spacing: -0.01em; }
+.cal-nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-mid);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background var(--duration-fast) var(--ease-smooth);
+}
+.cal-nav-btn:active { background: var(--surface-container-high); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-day-label {
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.6875rem; font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text-sub);
+    text-transform: none;
+    padding-bottom: 6px;
+}
+.cal-day {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    font-family: var(--font-body);
+    font-size: 0.8125rem; font-weight: 500;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    border: none;
+    position: relative;
+    transition: all var(--duration-fast) var(--ease-smooth);
+    width: 100%;
+}
+.cal-day:active { transform: scale(0.9); }
+.cal-day.today { background: var(--primary-container); color: var(--on-primary-container); font-weight: 600; }
+.cal-day.green { background: var(--success-dim); color: var(--success); }
+.cal-day.yellow { background: var(--partial-dim); color: var(--partial); }
+.cal-day.red { color: var(--text-sub); }
+.cal-day.has-note::after {
+    content: '';
+    position: absolute;
+    bottom: 3px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px;
+    background: var(--accent); border-radius: 50%;
+}
+
+/* ============================================================
+   INPUTS — clean, rounded
+   ============================================================ */
+input, textarea, select {
+    background: var(--input-bg);
+    color: var(--text);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: var(--text-base);
+    width: 100%;
+    font-family: var(--font-body);
+    transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: none;
+    outline: none;
+}
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+input[type=number] { -moz-appearance: textfield; }
+
+.label-sm {
+    font-family: var(--font-body);
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--text-mid);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.stepper {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--input-bg);
+    transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+.stepper:focus-within { border-color: var(--accent); }
+.stepper input {
+    border: none; text-align: center;
+    background: transparent;
+    padding: 10px 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-base); font-weight: 600;
+    flex: 1;
+    min-width: 0;
+    box-shadow: none;
+}
+.stepper button {
+    border: none;
+    background: var(--surface-container);
+    color: var(--text-mid);
+    width: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background var(--duration-fast) var(--ease-smooth);
+}
+.stepper button:active { background: var(--primary-container); color: var(--on-primary-container); }
+
+/* ============================================================
+   BUTTONS — Material 3 pill-shaped
+   ============================================================ */
+.btn-main {
+    width: 100%; padding: 14px 24px;
+    border-radius: var(--radius-full); border: none;
+    font-family: var(--font-body);
+    font-weight: 600; font-size: 0.9375rem;
+    letter-spacing: 0;
+    text-transform: none;
+    background: var(--accent);
+    color: var(--on-primary);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-smooth);
+    box-shadow: none;
+    position: relative;
+    overflow: hidden;
+}
+.btn-main:active { background: var(--accent-dim); transform: scale(0.98); }
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--outline);
+    color: var(--text-mid);
+    box-shadow: none;
+}
+.btn-outline:active { background: var(--surface-container-high); }
+.btn-sm {
+    padding: 8px 16px;
+    font-family: var(--font-body);
+    font-size: 0.8125rem; font-weight: 500;
+    letter-spacing: 0; text-transform: none;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--outline-variant);
+    background: var(--surface-container-low);
+    color: var(--text-mid);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--duration-fast) var(--ease-smooth);
+}
+.btn-sm:active { background: var(--surface-container-high); }
+.btn-icon {
+    background: var(--surface-container);
+    border: none;
+    border-radius: 50%;
+    color: var(--text-mid);
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px;
+    flex-shrink: 0;
+    transition: all var(--duration-fast) var(--ease-smooth);
+}
+.btn-icon:active { background: var(--primary-container); color: var(--on-primary-container); }
+
+/* ============================================================
+   MODALS — Material 3 Bottom Sheet
+   ============================================================ */
+.modal {
+    display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 500;
+    align-items: flex-end;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+.modal.active { display: flex; }
+.modal-content {
+    background: var(--surface-container-low);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    width: 100%; max-height: 92vh;
+    border-radius: 28px 28px 0 0;
+    padding: 20px 20px 24px;
+    overflow-y: auto;
+    border: none;
+    box-shadow: var(--elevation-3);
+    animation: slideUp var(--duration-slow) var(--ease-emphasized);
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle {
+    width: 32px; height: 4px;
+    background: var(--outline-variant);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+    opacity: 0.8;
+}
+.modal-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    margin-bottom: 20px;
+}
+.close-modal {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-sub);
+    background: var(--surface-container);
+    border: none;
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+    transition: background var(--duration-fast) var(--ease-smooth);
+}
+.close-modal:active { background: var(--surface-container-high); }

@@ -1,0 +1,184 @@
+/* ============================================================
+   GOOGLE HEALTH / MATERIAL 3 — DESIGN TOKENS
+   ============================================================ */
+:root {
+    /* ── Primary accent (soft green-teal like Google Health) ── */
+    --primary: #459b88;
+    --on-primary: #ffffff;
+    --primary-container: #1e3d36;
+    --on-primary-container: #a7e0cf;
+
+    /* ── Surface system (tonal, warm dark) ── */
+    --surface-dim: #11161b;
+    --surface: #11161b;
+    --surface-bright: #373c42;
+    --surface-container-lowest: #0c1116;
+    --surface-container-low: #191e23;
+    --surface-container: #1d2227;
+    --surface-container-high: #282d32;
+    --surface-container-highest: #33383d;
+
+    /* ── Aliases for backward compat ── */
+    --bg: var(--surface-container-lowest);
+    --bg2: var(--surface-container-low);
+    --bg3: var(--surface-container);
+    --card: var(--surface-container-low);
+    --card2: var(--surface-container);
+    --input-bg: var(--surface-container);
+
+    /* ── Accent alias (maps to primary) ── */
+    --accent: var(--primary);
+    --accent-dim: #367a6b;
+    --accent-glow: rgba(69, 155, 136, 0.12);
+    --accent-glow-strong: rgba(69, 155, 136, 0.22);
+    --accent-gradient: var(--primary);
+    --accent-gradient-subtle: linear-gradient(135deg, rgba(69,155,136,0.08), transparent);
+
+    /* ── Text ── */
+    --text: #e4e7e8;
+    --text-mid: #93999d;
+    --text-sub: #62686d;
+
+    /* ── Borders (subtle — used sparingly) ── */
+    --outline: #343a40;
+    --outline-variant: #262b30;
+    --border: var(--outline-variant);
+    --border2: var(--outline);
+    --border-glass: rgba(255, 255, 255, 0.04);
+
+    /* ── Semantic ── */
+    --success: #43a371;
+    --success-dim: rgba(67, 163, 113, 0.12);
+    --success-glow: rgba(67, 163, 113, 0.16);
+    --partial: #c88a20;
+    --partial-dim: rgba(200, 138, 32, 0.12);
+    --partial-glow: rgba(200, 138, 32, 0.16);
+    --fail: #d15753;
+    --fail-dim: rgba(209, 87, 83, 0.10);
+    --pr: #9575cd;
+    --pr-glow: rgba(149, 117, 205, 0.18);
+    --pr-dim: rgba(149, 117, 205, 0.10);
+    --water: #5b9bd5;
+    --water-dim: rgba(91, 155, 213, 0.15);
+    --cardio: #7e8acb;
+    --cardio-dim: rgba(126, 138, 203, 0.12);
+
+    /* ── Elevation shadows (Material 3 style) ── */
+    --elevation-1: 0 1px 2px rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
+    --elevation-2: 0 1px 2px rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
+    --elevation-3: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-sm: var(--elevation-1);
+    --shadow-md: var(--elevation-2);
+    --shadow-lg: var(--elevation-3);
+    --shadow-glow: 0 0 0 0 transparent;
+    --shadow-pr: 0 0 0 0 transparent;
+    --shadow-success: 0 0 0 0 transparent;
+
+    /* ── Typography (Inter family, Material scale) ── */
+    --font-display: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+    --text-3xl: 2.25rem;
+    --text-2xl: 1.5rem;
+    --text-xl: 1.25rem;
+    --text-lg: 1.125rem;
+    --text-base: 0.9375rem;
+    --text-sm: 0.8125rem;
+    --text-xs: 0.75rem;
+    --text-2xs: 0.6875rem;
+
+    /* ── Radii (large, Google-style) ── */
+    --radius-xs: 8px;
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+    --radius-2xl: 28px;
+    --radius-full: 9999px;
+
+    /* ── Transitions (Material spring) ── */
+    --ease-out-expo: cubic-bezier(0, 0, 0.2, 1);
+    --ease-out-back: cubic-bezier(0.05, 0.7, 0.1, 1);
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+    --duration-fast: 0.15s;
+    --duration-normal: 0.25s;
+    --duration-slow: 0.4s;
+    --duration-chart: 0.8s;
+}
+
+[data-theme="light"] {
+    --surface-dim: #dce1e7;
+    --surface: #f5f8fb;
+    --surface-bright: #f5f8fb;
+    --surface-container-lowest: #ffffff;
+    --surface-container-low: #f0f4f8;
+    --surface-container: #ebf0f5;
+    --surface-container-high: #e5ebf1;
+    --surface-container-highest: #dfe5eb;
+
+    --bg: var(--surface-container-lowest);
+    --bg2: var(--surface-container-low);
+    --bg3: var(--surface-container);
+    --card: var(--surface);
+    --card2: var(--surface-container-low);
+    --input-bg: #f0f4f8;
+
+    --text: #181c20;
+    --text-mid: #4b5258;
+    --text-sub: #717980;
+
+    --outline: #c4cbd1;
+    --outline-variant: #d5dbe1;
+    --border: var(--outline-variant);
+    --border2: var(--outline);
+    --border-glass: rgba(0, 0, 0, 0.04);
+
+    --primary: #2d7a69;
+    --on-primary: #ffffff;
+    --primary-container: #b5e6d7;
+    --on-primary-container: #002018;
+    --accent: var(--primary);
+    --accent-dim: #236553;
+    --accent-glow: rgba(45, 122, 105, 0.1);
+    --accent-glow-strong: rgba(45, 122, 105, 0.18);
+    --accent-gradient: var(--primary);
+    --accent-gradient-subtle: linear-gradient(135deg, rgba(45,122,105,0.06), transparent);
+
+    --elevation-1: 0 1px 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --elevation-2: 0 1px 2px rgba(0,0,0,0.06), 0 2px 6px 1px rgba(0,0,0,0.05);
+    --elevation-3: 0 2px 4px rgba(0,0,0,0.04), 0 4px 12px 2px rgba(0,0,0,0.06);
+    --shadow-sm: var(--elevation-1);
+    --shadow-md: var(--elevation-2);
+    --shadow-lg: var(--elevation-3);
+}
+
+/* ============================================================
+   RESET, SCROLLBAR, BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 80px;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--outline); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-sub); }
+* { scrollbar-width: thin; scrollbar-color: var(--outline) transparent; }
+
+/* Selection */
+::selection { background: var(--primary-container); color: var(--on-primary-container); }
