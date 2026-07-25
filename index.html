@@ -26,6 +26,7 @@
             <div class="wt"><span id="headerWt">--</span>kg</div>
             <div class="bf"><span id="headerBF">--%</span> BF</div>
         </div>
+        <button class="palette-btn" onclick="openAccentPicker()" title="Accent color">🎨</button>
         <button class="theme-btn" onclick="toggleTheme()">☀</button>
     </div>
 </header>
@@ -433,6 +434,19 @@
     </div>
 </div>
 
+<!-- ACCENT PICKER MODAL -->
+<div id="accentModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-handle"></div>
+        <span class="close-modal" onclick="closeModal('accentModal')">✕</span>
+        <div class="modal-title">Accent Color</div>
+        <div style="margin-bottom:14px;">
+            <span class="label-sm">Choose your color</span>
+        </div>
+        <div id="accentSwatches"></div>
+    </div>
+</div>
+
 <!-- GOAL EDITOR MODAL -->
 <div id="goalModal" class="modal">
     <div class="modal-content">
@@ -451,6 +465,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/state.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/colors.js"></script>
     <script src="js/calendar.js"></script>
     <script src="js/workout.js"></script>
     <script src="js/diet.js"></script>

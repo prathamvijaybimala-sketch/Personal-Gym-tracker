@@ -63,3 +63,43 @@
 - All 10 modals with same IDs
 - All Chart.js configurations preserved
 - Capacitor compatibility maintained (vanilla HTML/CSS/JS, no framework)
+
+## 2026-07-25 — TASK 3: Dynamic Accent Color System (Material You–style)
+
+### What was added
+- **`/js/colors.js`** (new, ~160 lines): Complete tonal palette generator from a single seed hex color. Computes `--primary`, `--on-primary`, `--primary-container`, `--on-primary-container`, `--accent`, `--accent-dim`, `--accent-glow`, `--accent-glow-strong`, `--accent-gradient`, and `--accent-gradient-subtle` using HSL color math. Supports both dark and light modes with mode-appropriate container tones. Applied in real time by setting CSS custom properties on `document.documentElement`.
+
+### Preset accent colors (7 + custom)
+| Name   | Hex       | Description |
+|--------|-----------|-------------|
+| Teal   | `#459b88` | Default — soft green-teal |
+| Blue   | `#4a8fd4` | Calm sky blue |
+| Purple | `#7b6ef0` | Rich violet |
+| Pink   | `#e0558b` | Warm rose |
+| Orange | `#e07b39` | Energetic amber |
+| Green  | `#4caf50` | Fresh green |
+| Slate  | `#64748b` | Neutral gray-blue |
+| Custom | (picker) | Native `<input type="color">` |
+
+### UI changes
+- **Palette button** (🎨) added to the header, between the BF stats chip and the theme toggle.
+- **Accent picker modal** (`#accentModal`): Material 3 bottom sheet with 7 circular color swatches + a rainbow custom picker. Active swatch gets a ring highlight. A live preview strip shows primary, container, and dim tones.
+- **Swatch styles** in `css/pages.css`: 48px circular buttons with elevation shadows, active ring using `var(--accent)`, scale-on-press feedback.
+
+### How it works
+1. User taps 🎨 → modal opens → `renderAccentPicker()` draws swatches
+2. Tapping a preset calls `selectAccent(color, name)` → `applyPalette(seedHex, name)`
+3. `applyPalette` calls `generatePalette` to compute all 10 CSS variables, sets them on `:root` via `root.style.setProperty()`, saves to `localStorage` (`accentSeed`, `accentName`), and re-renders charts
+4. On app init, `restoreAccent()` reads `localStorage.accentSeed` and re-applies the saved palette
+5. The custom button opens a native `<input type="color">` — changing it live-updates the theme
+
+### Files changed
+- **`/js/colors.js`** — new file (all palette logic)
+- **`/css/pages.css`** — added `.accent-swatch` and `.palette-btn` styles
+- **`/index.html`** — added palette button in header, `#accentModal` bottom sheet, `<script src="js/colors.js">`
+- **`/js/app.js`** — `init()` now calls `restoreAccent()` after setting theme
+
+### Backward compatibility
+- If no `accentSeed` exists in localStorage, defaults to Teal (`#459b88`) — identical to the hardcoded values before this change.
+- All 23 existing localStorage keys unchanged.
+- All existing functions untouched.

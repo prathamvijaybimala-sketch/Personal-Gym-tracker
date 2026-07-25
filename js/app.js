@@ -8,6 +8,13 @@ function init() {
     if(theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
     else document.documentElement.removeAttribute('data-theme');
 
+    // Restore saved accent color (or use default teal)
+    if (!localStorage.getItem('accentSeed')) {
+        localStorage.setItem('accentSeed', '#459b88');
+        localStorage.setItem('accentName', 'Teal');
+    }
+    if (typeof restoreAccent === 'function') restoreAccent();
+
     updateHeaderStats();
     if(localStorage.getItem('bfHeight')) document.getElementById('bfHeight').value = localStorage.getItem('bfHeight');
 
