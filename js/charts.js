@@ -46,9 +46,9 @@ function renderDietTrend() {
             maintainAspectRatio:false,
             animation: { duration: 800, easing: 'easeOutQuart' },
             scales:{
-                x:{ticks:{color:text, font:{size:11,weight:'700',family:'JetBrains Mono'}}, grid:{color:border,drawBorder:false}},
+                x:{ticks:{color:text, font:{size:11,weight:'700','JetBrains Mono', monospace}}, grid:{color:border,drawBorder:false}},
                 y:{beginAtZero:true, max:Math.ceil(yMax),
-                   ticks:{color:text, font:{size:11,family:'JetBrains Mono'}, callback:v=>v+'g'},
+                   ticks:{color:text, font:{size:11,'JetBrains Mono', monospace}, callback:v=>v+'g'},
                    grid:{color:border,drawBorder:false},
                    afterBuildTicks: axis => { axis.ticks = axis.ticks.filter(t => t.value <= Math.ceil(yMax)); }}
             },
@@ -178,11 +178,11 @@ function openGraph(type, title) {
             interaction: { intersect: false, mode: 'index' },
             scales:{
                 x:{
-                    ticks:{color:textColor, font:{size:10,family:'JetBrains Mono'}, maxTicksLimit:8},
+                    ticks:{color:textColor, font:{size:10,'JetBrains Mono', monospace}, maxTicksLimit:8},
                     grid:{color:borderColor, drawBorder:false}
                 },
                 y:{
-                    ticks:{color:textColor, font:{size:10,family:'JetBrains Mono'}, callback:v => v + (yLabel.includes('%') ? '%' : '')},
+                    ticks:{color:textColor, font:{size:10,'JetBrains Mono', monospace}, callback:v => v + (yLabel.includes('%') ? '%' : '')},
                     grid:{color:borderColor, drawBorder:false}
                 }
             },

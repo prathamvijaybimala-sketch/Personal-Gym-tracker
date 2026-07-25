@@ -20,12 +20,12 @@
         document.getElementById('workoutList').innerHTML = `
             <div class="card" style="text-align:center;padding:44px 20px;border:1px dashed var(--border2);">
                 <div style="font-size:3.5em;margin-bottom:12px;animation:breathe 3s ease-in-out infinite;">🧘</div>
-                <div style="font-family:var(--font-display);font-size:1.4em;font-weight:800;letter-spacing:3px;text-transform:uppercase;">Active Recovery</div>
+                <div style="font-family:var(--font-body);font-size:1.4em;font-weight:800;letter-spacing:3px;text-transform:uppercase;">Active Recovery</div>
                 <div style="color:var(--text-sub);margin-top:10px;font-size:13px;line-height:1.7;">Walk · Stretch · Sleep · Eat</div>
                 <div style="margin-top:18px;display:flex;justify-content:center;gap:20px;">
-                    <div style="color:var(--text-sub);font-size:11px;font-family:var(--font-display);letter-spacing:1px;">🚶 Walk 20 min</div>
-                    <div style="color:var(--text-sub);font-size:11px;font-family:var(--font-display);letter-spacing:1px;">💧 Hydrate well</div>
-                    <div style="color:var(--text-sub);font-size:11px;font-family:var(--font-display);letter-spacing:1px;">😴 7-9 hrs</div>
+                    <div style="color:var(--text-sub);font-size:11px;font-family:var(--font-body);letter-spacing:1px;">🚶 Walk 20 min</div>
+                    <div style="color:var(--text-sub);font-size:11px;font-family:var(--font-body);letter-spacing:1px;">💧 Hydrate well</div>
+                    <div style="color:var(--text-sub);font-size:11px;font-family:var(--font-body);letter-spacing:1px;">😴 7-9 hrs</div>
                 </div>
             </div>`;
         return;
@@ -54,7 +54,7 @@
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
                     <button class="btn-sm" onclick="copyLast('${ex.id}')">📋 Copy</button>
-                    ${ex.l?`<a href="${ex.l}" target="_blank" style="font-family:var(--font-display);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);text-decoration:none;">FORM ↗</a>`:''}
+                    ${ex.l?`<a href="${ex.l}" target="_blank" style="font-family:var(--font-body);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);text-decoration:none;">FORM ↗</a>`:''}
                 </div>
             </div>
             <div class="input-row">
@@ -87,7 +87,7 @@
     if(dayData.ex.length === 0) {
         html = `<div class="card" style="text-align:center;padding:36px 20px;color:var(--text-sub);border:1px dashed var(--border2);">
             <div style="font-size:2.5em;margin-bottom:10px;opacity:0.6;">➕</div>
-            <div style="font-family:var(--font-display);font-size:1.1em;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">No exercises yet</div>
+            <div style="font-family:var(--font-body);font-size:1.1em;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">No exercises yet</div>
             <div style="font-size:12px;margin-top:8px;line-height:1.6;color:var(--text-sub);">Tap <b style="color:var(--text-mid);">Edit</b> to build your workout for this day</div>
         </div>`;
     } else {

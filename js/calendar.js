@@ -58,7 +58,7 @@ function openHistory(ds) {
     const suppConfig = JSON.parse(localStorage.getItem('suppConfig'));
     let tags = '';
     config.forEach(i=>{if(checks.includes(i.id)) tags+=`<span style="background:var(--bg2);border:1px solid var(--border);padding:3px 8px;border-radius:5px;font-size:11px;margin:2px;display:inline-block;">${i.n}</span>`;});
-    suppConfig.forEach(i=>{if(checks.includes(i.id)) tags+=`<span style="background:#1a2000;border:1px solid var(--accent-dim);color:var(--accent);padding:3px 8px;border-radius:5px;font-size:11px;margin:2px;display:inline-block;">${i.n}</span>`;});
+    suppConfig.forEach(i=>{if(checks.includes(i.id)) tags+=`<span style="background:var(--primary-container);border:1px solid var(--accent-dim);color:var(--accent);padding:3px 8px;border-radius:5px;font-size:11px;margin:2px;display:inline-block;">${i.n}</span>`;});
     html += `<div style="display:flex;flex-wrap:wrap;gap:2px;">${tags||'<span style="font-size:12px;color:var(--text-sub)">Nothing logged</span>'}</div>`;
     const mood = localStorage.getItem('mood_'+ds);
     if(mood) html += `<div style="margin-top:12px;font-size:20px;">${mood}</div>`;

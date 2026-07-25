@@ -89,7 +89,7 @@ function addQuickProtein() {
         const detail = mode==='menu' ? item.p+'g protein' : (item.s==='daily'?'Daily':item.s==='alt'?'Alt Day':'Day '+item.s);
         html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
             <div><div style="font-weight:600;font-size:14px;">${item.n}</div>
-            <div style="font-family:var(--font-display);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-sub);margin-top:2px;">${detail}</div></div>
+            <div style="font-family:var(--font-body);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-sub);margin-top:2px;">${detail}</div></div>
             <button onclick="removeItem(${idx})" style="background:none;border:none;color:var(--fail);font-size:18px;font-weight:700;cursor:pointer;padding:0 6px;">✕</button>
         </div>`;
     });

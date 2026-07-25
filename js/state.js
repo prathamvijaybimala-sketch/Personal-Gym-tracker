@@ -110,7 +110,7 @@ function showToast(msg, type='info', icon='') {
 
 // ── Confetti cannon for PR celebrations ──
 function celebratePR() {
-    const colors = ['#a855f7','#c8f500','#22c55e','#f59e0b','#7c3aed','#f0f0f0','#3b82f6'];
+    const colors = ['#9575cd','#459b88','#43a371','#c88a20','#7c4dff','#e4e7e8','#5b9bd5'];
     for (let i = 0; i < 60; i++) {
         const particle = document.createElement('div');
         const size = Math.random() * 8 + 4;
