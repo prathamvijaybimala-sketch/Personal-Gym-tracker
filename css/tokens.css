@@ -1,0 +1,164 @@
+/* ============================================================
+   PHASE 1: DESIGN TOKENS & CSS VARIABLES
+   ============================================================ */
+:root {
+    /* ── Accent ── */
+    --accent: #c8f500;
+    --accent-dim: #8fb300;
+    --accent-glow: rgba(200, 245, 0, 0.18);
+    --accent-glow-strong: rgba(200, 245, 0, 0.35);
+    --accent-gradient: linear-gradient(135deg, #c8f500, #8fb300);
+    --accent-gradient-subtle: linear-gradient(135deg, rgba(200,245,0,0.15), rgba(143,179,0,0.05));
+
+    /* ── Surfaces ── */
+    --surface-0: #070708;
+    --surface-1: #0d0d10;
+    --surface-2: #131318;
+    --surface-3: #1a1a20;
+    --surface-4: #22222a;
+    --surface-glass: rgba(22, 22, 28, 0.85);
+    --surface-glass-border: rgba(255, 255, 255, 0.06);
+
+    --bg: var(--surface-0);
+    --bg2: var(--surface-1);
+    --bg3: var(--surface-2);
+    --card: var(--surface-1);
+    --card2: var(--surface-2);
+    --input-bg: var(--surface-2);
+
+    /* ── Text ── */
+    --text: #eeeef2;
+    --text-mid: #9999a3;
+    --text-sub: #5e5e6a;
+
+    /* ── Borders ── */
+    --border: #1e1e28;
+    --border2: #2a2a36;
+    --border-glass: rgba(255, 255, 255, 0.08);
+
+    /* ── Semantic ── */
+    --success: #22c55e;
+    --success-dim: rgba(34, 197, 94, 0.15);
+    --success-glow: rgba(34, 197, 94, 0.25);
+    --partial: #f59e0b;
+    --partial-dim: rgba(245, 158, 11, 0.15);
+    --partial-glow: rgba(245, 158, 11, 0.25);
+    --fail: #ef4444;
+    --fail-dim: rgba(239, 68, 68, 0.12);
+    --pr: #a855f7;
+    --pr-glow: rgba(168, 85, 247, 0.3);
+    --pr-dim: rgba(168, 85, 247, 0.12);
+    --water: #3b82f6;
+    --water-dim: rgba(59, 130, 246, 0.2);
+    --cardio: #6366f1;
+    --cardio-dim: rgba(99, 102, 241, 0.15);
+
+    /* ── Shadows ── */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.6);
+    --shadow-glow: 0 0 30px var(--accent-glow);
+    --shadow-pr: 0 0 24px var(--pr-glow);
+    --shadow-success: 0 0 20px var(--success-glow);
+
+    /* ── Glassmorphism ── */
+    --glass-bg: rgba(13, 13, 16, 0.82);
+    --glass-blur: 16px;
+    --glass-saturate: 1.4;
+
+    /* ── Typography ── */
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Barlow', sans-serif;
+    --text-3xl: 2em;
+    --text-2xl: 1.6em;
+    --text-xl: 1.4em;
+    --text-lg: 1.15em;
+    --text-base: 0.95em;
+    --text-sm: 0.82em;
+    --text-xs: 0.7em;
+    --text-2xs: 0.62em;
+
+    /* ── Radii ── */
+    --radius-xs: 5px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-full: 9999px;
+
+    /* ── Transitions ── */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 0.15s;
+    --duration-normal: 0.25s;
+    --duration-slow: 0.4s;
+    --duration-chart: 0.8s;
+}
+
+[data-theme="light"] {
+    --surface-0: #f4f4f0;
+    --surface-1: #fefefe;
+    --surface-2: #f0f0ec;
+    --surface-3: #e8e8e2;
+    --surface-4: #dcdcd6;
+    --surface-glass: rgba(254, 254, 254, 0.88);
+    --surface-glass-border: rgba(0, 0, 0, 0.06);
+
+    --bg: var(--surface-0);
+    --bg2: var(--surface-1);
+    --bg3: var(--surface-2);
+    --card: var(--surface-1);
+    --card2: var(--surface-2);
+    --input-bg: #fafaf8;
+
+    --text: #111118;
+    --text-mid: #555560;
+    --text-sub: #888894;
+
+    --border: #d8d8d4;
+    --border2: #c4c4be;
+    --border-glass: rgba(0, 0, 0, 0.06);
+
+    --accent: #6a9800;
+    --accent-dim: #4a7000;
+    --accent-glow: rgba(106, 152, 0, 0.15);
+    --accent-glow-strong: rgba(106, 152, 0, 0.25);
+    --accent-gradient: linear-gradient(135deg, #7ab000, #5a8800);
+
+    --glass-bg: rgba(254, 254, 254, 0.85);
+    --glass-blur: 20px;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    --shadow-glow: 0 0 24px var(--accent-glow);
+}
+
+/* ============================================================
+   PHASE 2: RESET, SCROLLBAR, BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 80px;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-sub); }
+* { scrollbar-width: thin; scrollbar-color: var(--border2) transparent; }

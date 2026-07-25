@@ -1,0 +1,259 @@
+/* ============================================================
+   PHASE 7: CALENDAR — polished day cells
+   ============================================================ */
+.cal-controls {
+    display: flex;
+    gap: 4px;
+    background: var(--bg2);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+}
+.cal-mode-btn {
+    flex: 1; border: none;
+    background: transparent;
+    color: var(--text-sub);
+    font-family: var(--font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1px;
+    padding: 9px 4px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-smooth);
+}
+.cal-mode-btn.active { background: var(--accent); color: #000; box-shadow: var(--shadow-glow); }
+.cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.cal-month { font-family: var(--font-display); font-weight: 800; font-size: var(--text-lg); letter-spacing: 1px; }
+.cal-nav-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 34px; height: 34px;
+    border-radius: var(--radius-sm);
+    cursor: pointer; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all var(--duration-fast) var(--ease-smooth);
+}
+.cal-nav-btn:active { background: var(--accent); color: #000; border-color: var(--accent); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-day-label {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    padding-bottom: 4px;
+}
+.cal-day {
+    aspect-ratio: 1;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 700;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--bg2);
+    color: var(--text-sub);
+    cursor: pointer;
+    border: 1px solid transparent;
+    position: relative;
+    transition: all var(--duration-fast) var(--ease-spring);
+}
+.cal-day:active { transform: scale(0.88); }
+.cal-day.today { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+.cal-day.green { background: var(--success-dim); color: var(--success); border-color: rgba(34,197,94,0.25); }
+.cal-day.yellow { background: var(--partial-dim); color: var(--partial); border-color: rgba(245,158,11,0.25); }
+.cal-day.red { background: var(--fail-dim); color: var(--fail); border-color: rgba(239,68,68,0.2); }
+.cal-day.has-note::after {
+    content: '';
+    position: absolute;
+    bottom: 3px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px;
+    background: var(--accent); border-radius: 50%;
+    box-shadow: 0 0 4px var(--accent-glow-strong);
+}
+
+/* ============================================================
+   PHASE 8: INPUTS — refined
+   ============================================================ */
+input, textarea, select {
+    background: var(--input-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 11px 12px;
+    font-size: 15px;
+    width: 100%;
+    font-family: var(--font-body);
+    transition: all var(--duration-fast) var(--ease-smooth);
+}
+input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    outline: none;
+}
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+input[type=number] { -moz-appearance: textfield; }
+
+.label-sm {
+    font-family: var(--font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.stepper {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--input-bg);
+    transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+.stepper:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+.stepper input {
+    border: none; text-align: center;
+    background: transparent;
+    padding: 10px 0;
+    font-family: var(--font-mono);
+    font-size: 15px; font-weight: 700;
+    flex: 1;
+    min-width: 0;
+    box-shadow: none;
+}
+.stepper button {
+    border: none;
+    background: var(--bg3);
+    color: var(--text-mid);
+    width: 38px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--duration-fast) var(--ease-smooth);
+}
+.stepper button:active { background: var(--accent); color: #000; transform: scale(0.9); }
+
+/* ============================================================
+   PHASE 9: BUTTONS — premium micro-interactions
+   ============================================================ */
+.btn-main {
+    width: 100%; padding: 14px;
+    border-radius: var(--radius-md); border: none;
+    font-family: var(--font-display);
+    font-weight: 800; font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--accent-gradient);
+    color: #000;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-spring);
+    box-shadow: 0 4px 15px var(--accent-glow);
+    position: relative;
+    overflow: hidden;
+}
+.btn-main::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+.btn-main:active { transform: scale(0.96); box-shadow: 0 2px 8px var(--accent-glow); }
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--text-mid);
+    box-shadow: none;
+}
+.btn-outline::after { display: none; }
+.btn-outline:active { background: var(--bg3); border-color: var(--text-sub); }
+.btn-sm {
+    padding: 6px 12px;
+    font-family: var(--font-display);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text-mid);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--duration-fast) var(--ease-spring);
+}
+.btn-sm:active { background: var(--border2); transform: scale(0.93); }
+.btn-icon {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-mid);
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 17px;
+    flex-shrink: 0;
+    transition: all var(--duration-fast) var(--ease-spring);
+}
+.btn-icon:active { background: var(--accent); color: #000; border-color: var(--accent); transform: scale(0.88); }
+
+/* ============================================================
+   PHASE 10: MODALS — glass morph slide-ups
+   ============================================================ */
+.modal {
+    display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.65);
+    z-index: 500;
+    align-items: flex-end;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+.modal.active { display: flex; }
+.modal-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    width: 100%; max-height: 92vh;
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+    padding: 24px 20px;
+    overflow-y: auto;
+    border: 1px solid var(--glass-border);
+    border-bottom: none;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+    animation: slideUp var(--duration-slow) var(--ease-out-back);
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle {
+    width: 36px; height: 4px;
+    background: var(--text-sub);
+    border-radius: 2px;
+    margin: 0 auto 18px;
+    opacity: 0.5;
+}
+.modal-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--text-xl);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+.close-modal {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-sub);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+    transition: all var(--duration-fast) var(--ease-spring);
+}
+.close-modal:active { background: var(--fail); color: #fff; border-color: var(--fail); transform: scale(0.88); }
