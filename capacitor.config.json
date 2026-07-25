@@ -1,0 +1,11 @@
+{
+  "appId": "com.gympro.tracker",
+  "appName": "GYM PRO",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

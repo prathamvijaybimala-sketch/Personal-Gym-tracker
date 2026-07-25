@@ -1,0 +1,7 @@
+node_modules/
+android/
+.cache/
+*.apk
+*.aab
+.idea/
+.gradle/
