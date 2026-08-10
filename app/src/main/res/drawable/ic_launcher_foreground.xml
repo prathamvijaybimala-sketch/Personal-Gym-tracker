@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple lime dumbbell mark for the GYM PRO launcher icon -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- bar -->
+    <path
+        android:fillColor="#C8F500"
+        android:pathData="M34,51 L74,51 L74,57 L34,57 Z" />
+    <!-- left plates -->
+    <path
+        android:fillColor="#C8F500"
+        android:pathData="M28,43 L34,43 L34,65 L28,65 Z" />
+    <path
+        android:fillColor="#8FB300"
+        android:pathData="M20,45 L28,45 L28,63 L20,63 Z" />
+    <!-- right plates -->
+    <path
+        android:fillColor="#C8F500"
+        android:pathData="M74,43 L80,43 L80,65 L74,65 Z" />
+    <path
+        android:fillColor="#8FB300"
+        android:pathData="M80,45 L88,45 L88,63 L80,63 Z" />
+</vector>

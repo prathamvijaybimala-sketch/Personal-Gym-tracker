@@ -5,3 +5,12 @@ android/
 *.aab
 .idea/
 .gradle/
+
+# Native Android project (Gradle/AGP)
+build/
+local.properties
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+*.iml
